@@ -1,0 +1,30 @@
+[
+    {
+        "export_name":"schedule.csv",
+        "import_from":{
+            "path":"./sample.xlsx",
+            "sheet":"Sheet1",
+            "fields":[
+                { "name":"level1",      "column":2,  "format":"string"  },
+                { "name":"level2",      "column":3,  "format":"string"  },
+                { "name":"level3",      "column":5,  "format":"string"  },
+                { "name":"p_starts_at", "column":6,  "format":"date"    },
+                { "name":"p_ends_at",   "column":8,  "format":"date"    },
+                { "name":"a_starts_at", "column":9,  "format":"date"    },
+                { "name":"a_ends_at",   "column":11, "format":"date"    },
+                { "name":"progress",    "column":13, "format":"percent" }
+            ],
+            "records":{
+                "start_condition":{
+                    "mode":"specified",
+                    "at":5
+                },
+                "end_condition":{
+                    "mode":"used_range"
+                },
+                "blank":"skip",
+                "blank_condition":"and"
+            }
+        }
+    }
+]

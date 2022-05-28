@@ -1,0 +1,10 @@
+{
+    "project_starts": "2022/01/01",
+    "project_ends": "2023/04/01",
+    "scale": "1.2",
+    "printscale": {
+        "scale": "weekly",
+        "zoom": 1
+    },
+    "language": "ja"
+}

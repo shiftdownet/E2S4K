@@ -1,0 +1,105 @@
+@startuml
+
+'#------------------------------------------------
+'# 表示設定用jsonデータ
+'#------------------------------------------------
+'# デフォルト設定
+!$default_setting={
+    "project_starts":"2022/01/01",
+    "project_ends":"2022/05/01",
+    "scale":"1.2",
+    "printscale":{
+        "scale":"weekly",
+        "zoom":1
+    },
+    "language":"ja"
+}
+
+'# jsonファイルから読み込み
+!$settings = %loadJSON("./config/gantt_chart_setting.json",$default_setting)
+
+'#------------------------------------------------
+'# ガントチャートに表示するjsonデータ
+'#------------------------------------------------
+'# デフォルト設定
+!$default_gantt={
+    "root":[
+        {"level3":"jsonファイルの読み込みに失敗しているみたいです","p_starts_at":"2022/01/01", "p_ends_at":"2022/05/01"}
+    ]
+}
+
+'# jsonファイルから読み込み
+!$schedule = %loadJSON("./schedule.json", $default_gantt)
+
+'#------------------------------------------------
+'# $valueが有効な値であればprefixとpostfixを付与した値を返す
+'#         無効な値であれば$emptyで指定した値を返す
+'#------------------------------------------------
+!function $_($prefix="",$value,$postfix="",$empty="")
+    !if $value==""
+        !return $empty
+    !else
+        !return $prefix+$value+$postfix
+    !endif
+!endfunction
+
+'#------------------------------------------------
+'# 進捗率を色分けして描画する　
+'#------------------------------------------------
+!procedure $main($l_schedule)
+    !$task_id = 0
+    !foreach $item in $l_schedule
+        $_("--<font color=#336688><size:13>__**[",$item.level1,"]**__--")
+        $_("--<font color=#337799>",$item.level2,"--")
+
+        !if $item.level3 != ""
+            '# 開始日と終了日が同じであればatで表示する
+            !if $item.p_starts_at == $item.p_ends_at
+                [$item.level3] as [$task_id] happens at $item.p_starts_at
+            !else
+                [$item.level3 $_("",$item.progress,"", "0")%] as [$task_id] starts at $item.p_starts_at and ends at $item.p_ends_at
+            !endif
+
+            '# 進捗ゲージを表示
+            $_([$task_id]+" is ",$item.progress,"%  completed", [$task_id] + " is 0% completed")
+
+            '# 進捗率と日付の関係に応じて色分け
+            !if $item.progress=="100"
+                [$task_id] is colored in Gray/LightGray
+            !elseif $item.progress=="0" || $item.progress==""
+                !if $item.p_starts_at < $today
+                    [$task_id] is colored in Red
+                !else
+                    [$task_id] is colored in Green/Green
+                !endif
+            !else
+                !if $item.p_ends_at < $today
+                    [$task_id] is colored in Red
+                !else
+                    [$task_id] is colored in Aqua/Blue
+                !endif
+            !endif
+        !endif
+        !$task_id = $task_id + 1
+    !endfor
+!end procedure
+
+'#----------------------------------------------
+'# 全体設定他
+'#----------------------------------------------
+$_("scale ", $settings.scale)
+$_("printscale ", $settings.printscale.scale, $_(" zoom ",$settings.printscale.zoom))
+$_("language ", $settings.language)
+$_("project starts ", $settings.project_starts)
+$_("[.] happens at ", $settings.project_ends, " and is colored in White")
+hide footbox
+!$today = %date("yyyy/MM/dd")
+today is $today and is colored in Red
+$main($schedule.root)
+
+'#----------------------------------------------
+'# スタイル設定
+'#----------------------------------------------
+!include ./gantt_chart_design.pu
+
+@enduml
