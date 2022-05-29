@@ -8,8 +8,8 @@
 
 ## How To Use
 
-1. Change the path in kanban2svg.bat and the configuration files under the config folder.
-2. Launch the "kanban2svg.bat".
+1. Change the path in E2S4K.bat and the configuration files under the config folder.
+2. Launch the "E2S4K.bat".
 3. svg file is created by plantuml.
 4. You can view its result by view.html
 
