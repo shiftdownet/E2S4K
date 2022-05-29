@@ -38,7 +38,9 @@ function main() {
         (Get-Content $json_path | Out-String | ConvertFrom-Json) | forEach-Object{
             $root.root += $_
         }
-        $root | ConvertTo-Json | Out-File $output_path -Encoding UTF8
+        
+        $root | ConvertTo-Json | Out-String | % { [Text.Encoding]::UTF8.GetBytes($_) } | Set-Content -Path $output_path -Encoding Byte
+
     }
 }
 

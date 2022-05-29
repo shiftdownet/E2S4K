@@ -13,14 +13,7 @@ powershell -ExecutionPolicy RemoteSigned -File ./scripts/csv2json.ps1 -Args -csv
 echo #-------------------------------
 echo # Add root element to json
 echo #-------------------------------
-powershell -ExecutionPolicy RemoteSigned -File ./scripts/addroot.ps1 -Args -json_path "./schedule_without_root.json" -output_path "./schedule_withBOM.json"
-
-echo #-------------------------------
-echo # Remove BOM
-echo #-------------------------------
-echo Start processing
-start /min /wait cmd /c chcp 65001 ^& cmd /u /c type "./schedule_withBOM.json" ^> $$$ ^& cmd /c type $$$ ^> "./schedule.json"
-echo Processing is finished.
+powershell -ExecutionPolicy RemoteSigned -File ./scripts/addroot.ps1 -Args -json_path "./schedule_without_root.json" -output_path "./schedule.json"
 
 echo #-------------------------------
 echo # Convert from pu file to svg.
@@ -33,7 +26,6 @@ echo #-------------------------------
 echo Start processing
 del "./schedule.csv"
 del "./schedule_without_root.json"
-del "./schedule_withBOM.json"
 del "./schedule.json"
 del $$$
 cd ./config
