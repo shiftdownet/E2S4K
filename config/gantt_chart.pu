@@ -65,10 +65,26 @@
 
         !if $item.level3 != ""
             '# If starts date is the same as ends date, show task as milestone.
-            !if $item.p_starts_at == $item.p_ends_at
+            !if $item.p_starts_at == $item.p_ends_at &&  $item.p_ends_at != ""
                 [**$_("",$item.p_starts_at," : ", "") $item.level3**] as [$task_id] happens at $item.p_starts_at
             !else
-                [**$_("",$item.progress,"% - ", "0% - ") $item.level3**] as [$task_id] starts at $item.p_starts_at and ends at $item.p_ends_at
+                !$starts = ""
+                !$ends = ""
+                !if $item.p_starts_at == ""
+                    !$starts = $item.p_ends_at
+                !else
+                    !$starts = $item.p_starts_at
+                !endif
+                !if $item.p_ends_at == ""
+                    !$ends = $item.p_starts_at
+                !else
+                    !$ends = $item.p_ends_at
+                !endif
+                !if $starts != "" && $ends != ""
+                    [**$_("",$item.progress,"% - ", "0% - ") $item.level3**] as [$task_id] starts at $starts and ends at $ends
+                !else
+                    [**$_("",$item.progress,"% - ", "0% - ") <font color=Red>(日程未計画)</font> $item.level3**] as [$task_id] is colored in Red
+                !endif
             !endif
 
             '# Show progresses.
