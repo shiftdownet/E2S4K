@@ -27,7 +27,6 @@ echo Start processing
 del "./schedule.csv"
 del "./schedule_without_root.json"
 del "./schedule.json"
-del $$$
 cd ./config
 move gantt_chart.svg ../
 cd ../
