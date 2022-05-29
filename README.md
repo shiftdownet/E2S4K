@@ -1,5 +1,5 @@
 
-# Excel to SVG for KANBAN
+# E2S4K ( Excel to SVG for KANBAN )
 
 ## Features
 
@@ -15,7 +15,7 @@
 
 <div style="margin-left:2em;">
 <h3>Sample:</h3>
-<object data="./gantt_chart.svg" width="600px" style="border:1px solid Gray;"></object>
+<object data="https://github.com/shiftdownet/E2S4K/blob/master/gantt_chart.svg" width="600px" style="border:1px solid Gray;"></object>
 </div>
 
 ## Credits
