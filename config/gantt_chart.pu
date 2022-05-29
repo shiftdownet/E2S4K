@@ -55,9 +55,9 @@
         !if $item.level3 != ""
             '# 開始日と終了日が同じであればatで表示する
             !if $item.p_starts_at == $item.p_ends_at
-                [$item.level3 $_("",$item.p_starts_at,"", "0")] as [$task_id] happens at $item.p_starts_at
+                [**$_("",$item.p_starts_at," : ", "") $item.level3**] as [$task_id] happens at $item.p_starts_at
             !else
-                [$item.level3 $_("",$item.progress,"", "0")%] as [$task_id] starts at $item.p_starts_at and ends at $item.p_ends_at
+                [**$_("",$item.progress,"% - ", "0% - ") $item.level3**] as [$task_id] starts at $item.p_starts_at and ends at $item.p_ends_at
             !endif
 
             '# 進捗ゲージを表示
@@ -65,18 +65,18 @@
 
             '# 進捗率と日付の関係に応じて色分け
             !if $item.progress=="100"
-                [$task_id] is colored in Gray/LightGray
+                [$task_id] is colored in LightGray/Gray
             !elseif $item.progress=="0" || $item.progress==""
                 !if $item.p_starts_at < $today
-                    [$task_id] is colored in Red
+                    [$task_id] is colored in lightpink/Red
                 !else
-                    [$task_id] is colored in Green/Green
+                    [$task_id] is colored in Lime/Green
                 !endif
             !else
                 !if $item.p_ends_at < $today
-                    [$task_id] is colored in Red
+                    [$task_id] is colored in lightpink/Red
                 !else
-                    [$task_id] is colored in Aqua/Blue
+                    [$task_id] is colored in lightskyblue/darkblue
                 !endif
             !endif
         !endif
