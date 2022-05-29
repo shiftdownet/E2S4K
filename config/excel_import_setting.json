@@ -2,7 +2,7 @@
     {
         "export_name":"schedule.csv",
         "import_from":{
-            "path":"./sample.xlsx",
+            "path":"./sample.xlsm",
             "sheet":"Sheet1",
             "fields":[
                 { "name":"level1",      "column":2,  "format":"string"  },
