@@ -158,8 +158,6 @@ function ends_position($sheet, $setting) {
 # Code block 
 #-----------------------------------------------------------------------------------------------#
 # Call the main function.
-Write-Host Start processing.
 main
-Write-Host Processing is finished.
 
 #-----------------------------------------------------------------------------------------------#

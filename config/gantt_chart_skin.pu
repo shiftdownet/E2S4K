@@ -1,0 +1,26 @@
+@startuml
+'#------------------------------------------------
+'#
+'#  Skin param setting
+'#  References
+'#  - (plantuml)[https://plantuml.com/]
+'#  - (plantuml skinparam)[https://plantuml.com/skinparam]
+'#  - (plantuml color)[https://plantuml.com/color]
+'#
+'#------------------------------------------------
+<style>
+ganttDiagram {
+    arrow {
+        LineColor Lime
+        LineThickness 0.5
+    }
+    timeline {
+        BackgroundColor Gray
+        FontColor white
+    }
+    separator {
+        LineColor #999999
+    }
+}
+</style>
+@enduml

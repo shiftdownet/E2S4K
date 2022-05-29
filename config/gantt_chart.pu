@@ -1,9 +1,20 @@
 @startuml
-
 '#------------------------------------------------
-'# 表示設定用jsonデータ
+'#
+'#  Gantt chart template
+'#  References
+'#  - (plantuml)[https://plantuml.com/]
+'#  - (plantuml preprocessing)[https://plantuml.com/preprocessing]
+'#  - (plantuml preprocessing-json)[https://plantuml.com/preprocessing-json]
+'#  - (plantuml gantt-diagram)[https://plantuml.com/gantt-diagram]
+'#  - (plantuml skinparam)[https://plantuml.com/skinparam]
+'#  - (plantuml color)[https://plantuml.com/color]
+'#
 '#------------------------------------------------
-'# デフォルト設定
+'#------------------------------------------------
+'# Settings
+'#------------------------------------------------
+'# default
 !$default_setting={
     "project_starts":"2022/01/01",
     "project_ends":"2022/05/01",
@@ -15,25 +26,25 @@
     "language":"ja"
 }
 
-'# jsonファイルから読み込み
+'# load json
 !$settings = %loadJSON("./config/gantt_chart_setting.json",$default_setting)
 
 '#------------------------------------------------
-'# ガントチャートに表示するjsonデータ
+'# Gantt data
 '#------------------------------------------------
-'# デフォルト設定
+'# default
 !$default_gantt={
     "root":[
-        {"level3":"jsonファイルの読み込みに失敗しているみたいです","p_starts_at":"2022/01/01", "p_ends_at":"2022/05/01"}
+        {"level3":"Failed to load json file.","p_starts_at":"2022/01/01", "p_ends_at":"2022/05/01"}
     ]
 }
 
-'# jsonファイルから読み込み
+'# load json
 !$schedule = %loadJSON("./schedule.json", $default_gantt)
 
 '#------------------------------------------------
-'# $valueが有効な値であればprefixとpostfixを付与した値を返す
-'#         無効な値であれば$emptyで指定した値を返す
+'# If $value is invalid, returns the $empty.
+'# Otherwise, returns the marged value of $prefix, $value, and $postfix. 
 '#------------------------------------------------
 !function $_($prefix="",$value,$postfix="",$empty="")
     !if $value==""
@@ -44,7 +55,7 @@
 !endfunction
 
 '#------------------------------------------------
-'# 進捗率を色分けして描画する　
+'# Show the tasks.
 '#------------------------------------------------
 !procedure $main($l_schedule)
     !$task_id = 0
@@ -53,17 +64,17 @@
         $_("--<font color=#337799>",$item.level2,"--")
 
         !if $item.level3 != ""
-            '# 開始日と終了日が同じであればatで表示する
+            '# If starts date is the same as ends date, show task as milestone.
             !if $item.p_starts_at == $item.p_ends_at
                 [**$_("",$item.p_starts_at," : ", "") $item.level3**] as [$task_id] happens at $item.p_starts_at
             !else
                 [**$_("",$item.progress,"% - ", "0% - ") $item.level3**] as [$task_id] starts at $item.p_starts_at and ends at $item.p_ends_at
             !endif
 
-            '# 進捗ゲージを表示
+            '# Show progresses.
             $_([$task_id]+" is ",$item.progress,"%  completed", [$task_id] + " is 0% completed")
 
-            '# 進捗率と日付の関係に応じて色分け
+            '# Coloring based on progress and date.
             !if $item.progress=="100"
                 [$task_id] is colored in LightGray/Gray
             !elseif $item.progress=="0" || $item.progress==""
@@ -85,7 +96,7 @@
 !end procedure
 
 '#----------------------------------------------
-'# 全体設定他
+'# Other setting and call the main function.
 '#----------------------------------------------
 $_("scale ", $settings.scale)
 $_("printscale ", $settings.printscale.scale, $_(" zoom ",$settings.printscale.zoom))
@@ -98,8 +109,8 @@ today is $today and is colored in Red
 $main($schedule.root)
 
 '#----------------------------------------------
-'# スタイル設定
+'# Skin setting
 '#----------------------------------------------
-!include ./gantt_chart_design.pu
+!include ./gantt_chart_skin.pu
 
 @enduml

@@ -18,7 +18,7 @@
 #-----------------------------------------------------------------------------------------------#
 # Parameters 
 #-----------------------------------------------------------------------------------------------#
-Param([String]$json_path = "", [String]$output_path="")
+Param([String]$json_path = "", [String]$output_path = "")
 
 #-----------------------------------------------------------------------------------------------#
 # Functions
@@ -35,12 +35,11 @@ function main() {
     }
     else {
         $root = [PSCustomObject]@{ root = @() }
-        (Get-Content $json_path | Out-String | ConvertFrom-Json) | forEach-Object{
+        (Get-Content $json_path | Out-String | ConvertFrom-Json) | forEach-Object {
             $root.root += $_
         }
         
         $root | ConvertTo-Json | Out-String | % { [Text.Encoding]::UTF8.GetBytes($_) } | Set-Content -Path $output_path -Encoding Byte
-
     }
 }
 
@@ -48,8 +47,6 @@ function main() {
 # Code block 
 #-----------------------------------------------------------------------------------------------#
 # Call the main function.
-Write-Host Start processing.
 main
-Write-Host Processing is finished.
 
 #-----------------------------------------------------------------------------------------------#
